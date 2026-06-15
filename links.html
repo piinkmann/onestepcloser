@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1a1a1a;
             min-height: 100vh;
             padding: 20px;
             display: flex;
@@ -24,9 +24,9 @@
         .container {
             max-width: 900px;
             width: 100%;
-            background: white;
+            background: #222;
             border-radius: 12px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
             padding: 40px;
         }
 
@@ -36,13 +36,13 @@
         }
 
         .header h1 {
-            color: #333;
+            color: #fff;
             font-size: 2.5em;
             margin-bottom: 10px;
         }
 
         .header p {
-            color: #666;
+            color: #aaa;
             font-size: 1.1em;
         }
 
@@ -53,15 +53,21 @@
         .search-box input {
             width: 100%;
             padding: 12px 16px;
-            border: 2px solid #e0e0e0;
+            border: 2px solid #444;
             border-radius: 8px;
             font-size: 1em;
             transition: border-color 0.3s;
+            background: #2a2a2a;
+            color: #fff;
         }
 
         .search-box input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #666;
+        }
+
+        .search-box input::placeholder {
+            color: #777;
         }
 
         .categories {
@@ -76,11 +82,11 @@
 
         .category-title {
             font-size: 1.5em;
-            color: #667eea;
+            color: #fff;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 3px solid #555;
             padding-bottom: 10px;
         }
 
@@ -91,8 +97,8 @@
         }
 
         .link-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border: 2px solid #e0e0e0;
+            background: #2a2a2a;
+            border: 2px solid #444;
             border-radius: 8px;
             padding: 20px;
             text-decoration: none;
@@ -106,30 +112,25 @@
 
         .link-card:hover {
             transform: translateY(-5px);
-            border-color: #667eea;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+            border-color: #666;
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
         }
 
         .link-card-title {
             font-weight: 600;
             font-size: 1.1em;
-            color: #333;
+            color: #fff;
         }
 
         .link-card-description {
             font-size: 0.9em;
-            color: #666;
+            color: #aaa;
             line-height: 1.4;
-        }
-
-        .link-card-icon {
-            font-size: 1.5em;
-            margin-bottom: 5px;
         }
 
         .no-results {
             text-align: center;
-            color: #999;
+            color: #666;
             padding: 40px 20px;
             font-size: 1.1em;
         }
@@ -152,7 +153,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🔗 One Step Closer</h1>
+            <h1>One Step Closer</h1>
             <p>Hub for links and resources</p>
         </div>
 
@@ -171,28 +172,24 @@
                 {
                     title: "DefLock",
                     description: "An open-source project mapping license plate readers",
-                    url: "https://deflock.org/",
-                    icon: "🔒"
+                    url: "https://deflock.org/"
                 },
                 {
                     title: "Epstein Exposed",
                     description: "Database on files",
-                    url: "https://epsteinexposed.com/",
-                    icon: "📋"
+                    url: "https://epsteinexposed.com/"
                 }
             ],
             "Action & Activism": [
                 {
                     title: "Find your representative",
                     description: "Contact representative and pressure for them to write down information on files",
-                    url: "https://www.house.gov/representatives/find-your-representative",
-                    icon: "🗳️"
+                    url: "https://www.house.gov/representatives/find-your-representative"
                 },
                 {
                     title: "Taxpayers Against Genocide",
                     description: "Grassroots advocacy to end use of U.S. tax dollars in funding genocide",
-                    url: "https://taxpayersagainstgenocide.org/",
-                    icon: "✊"
+                    url: "https://taxpayersagainstgenocide.org/"
                 }
             ]
         };
@@ -232,7 +229,6 @@
                         linkCard.rel = 'noopener noreferrer';
                         linkCard.className = 'link-card';
                         linkCard.innerHTML = `
-                            <div class="link-card-icon">${link.icon}</div>
                             <div class="link-card-title">${link.title}</div>
                             <div class="link-card-description">${link.description}</div>
                         `;
