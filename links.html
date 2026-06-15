@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Step Closer - Links Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .categories {
+            display: grid;
+            gap: 30px;
+        }
+
+        .category {
+            display: grid;
+            gap: 15px;
+        }
+
+        .category-title {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .link-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .link-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .link-card-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .link-card-description {
+            font-size: 0.9em;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .link-card-icon {
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #999;
+            padding: 40px 20px;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 One Step Closer</h1>
+            <p>Your hub for helpful external links and resources</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search links..." />
+        </div>
+
+        <div class="categories" id="categoriesContainer"></div>
+        <div class="no-results" id="noResults" style="display: none;">No links found matching your search.</div>
+    </div>
+
+    <script>
+        // ===== EDIT YOUR LINKS HERE =====
+        const linksData = {
+            "Resources": [
+                {
+                    title: "GitHub",
+                    description: "Version control and collaboration platform",
+                    url: "https://github.com",
+                    icon: "🐙"
+                },
+                {
+                    title: "MDN Web Docs",
+                    description: "Complete web development documentation",
+                    url: "https://developer.mozilla.org",
+                    icon: "📚"
+                }
+            ],
+            "Learning": [
+                {
+                    title: "Stack Overflow",
+                    description: "Q&A community for programmers",
+                    url: "https://stackoverflow.com",
+                    icon: "❓"
+                },
+                {
+                    title: "freeCodeCamp",
+                    description: "Free coding education and courses",
+                    url: "https://freecodecamp.org",
+                    icon: "🎓"
+                }
+            ],
+            "Tools": [
+                {
+                    title: "VS Code",
+                    description: "Lightweight and powerful code editor",
+                    url: "https://code.visualstudio.com",
+                    icon: "⚙️"
+                }
+            ]
+        };
+        // ===== END EDIT SECTION =====
+
+        const container = document.getElementById('categoriesContainer');
+        const searchInput = document.getElementById('searchInput');
+        const noResults = document.getElementById('noResults');
+
+        function renderLinks(filter = '') {
+            container.innerHTML = '';
+            let hasResults = false;
+
+            for (const [category, links] of Object.entries(linksData)) {
+                const filteredLinks = links.filter(link => {
+                    const searchTerm = filter.toLowerCase();
+                    return (
+                        link.title.toLowerCase().includes(searchTerm) ||
+                        link.description.toLowerCase().includes(searchTerm) ||
+                        category.toLowerCase().includes(searchTerm)
+                    );
+                });
+
+                if (filteredLinks.length > 0) {
+                    hasResults = true;
+                    const categoryDiv = document.createElement('div');
+                    categoryDiv.className = 'category';
+                    categoryDiv.innerHTML = `<div class="category-title">${category}</div>`;
+
+                    const linksGrid = document.createElement('div');
+                    linksGrid.className = 'links-grid';
+
+                    filteredLinks.forEach(link => {
+                        const linkCard = document.createElement('a');
+                        linkCard.href = link.url;
+                        linkCard.target = '_blank';
+                        linkCard.rel = 'noopener noreferrer';
+                        linkCard.className = 'link-card';
+                        linkCard.innerHTML = `
+                            <div class="link-card-icon">${link.icon}</div>
+                            <div class="link-card-title">${link.title}</div>
+                            <div class="link-card-description">${link.description}</div>
+                        `;
+                        linksGrid.appendChild(linkCard);
+                    });
+
+                    categoryDiv.appendChild(linksGrid);
+                    container.appendChild(categoryDiv);
+                }
+            }
+
+            noResults.style.display = hasResults ? 'none' : 'block';
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            renderLinks(e.target.value);
+        });
+
+        // Initial render
+        renderLinks();
+    </script>
+</body>
+</html>
